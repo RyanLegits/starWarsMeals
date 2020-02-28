@@ -8,6 +8,9 @@ import random
 # Retrieve all people from swapi
 people = swapi.get_all("people")
 
+# Retrieve all planets from swapi
+planets = swapi.get_all("planets")
+
 # New class of characters
 class Character:
     def __init__(self, name, homeworld, dish):
@@ -30,15 +33,15 @@ def fixBrokenKeyword(brokenKeyword, list, newKeyword):
             list.append(newKeyword)
 
 
-#Importing data from json files
+# Importing data from json files
 
 # World Factbook API
-with open('/Users/eflash/Documents/devProjects/appStarWarsMeals/worldFactbook.json', \
+with open('/Users/eflash/Documents/devProjects/projectStarWarsMeals/rootStarWarsMeals/worldFactbook.json', \
           'r') as f:
     countries_dict = json.load(f)
 
 # National Dishes
-with open('/Users/eflash/Documents/devProjects/appStarWarsMeals/nationalDishes.json', \
+with open('/Users/eflash/Documents/devProjects/projectStarWarsMeals/rootStarWarsMeals/nationalDishes.json', \
           'r') as f:
     dictDishes = json.load(f)
 
@@ -53,10 +56,12 @@ for person in people.iter():
 
     rawHomeworld = person.homeworld
     # Strip homeworld to integer since swapi returns a url
-    strippedHomeworld = re.sub('[^0-9]', '', rawHomeworld)
+    strippedHomeworld = int(re.sub('[^0-9]', '', rawHomeworld))
 
-    dataPlanet = swapi.get_planet(strippedHomeworld)
-    # Get actual planet name
+    #Get actual planet object
+    dataPlanet = planets.items[strippedHomeworld]
+
+    # Get planet name
     characterHomeworld = dataPlanet.name
 
     # Find new homeworld
