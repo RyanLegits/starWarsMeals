@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from appStarWarsMeals.utils import luke
 
-# Create your views here.
+def home(request):
+	context = {
+
+		'luke': luke.name
+	}
+	return render(request, 'recipes/home.html', context)
+	
