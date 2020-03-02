@@ -9,7 +9,7 @@ def home(request):
 		dishList.append(i.dish)
 
 	context = {
-		'newList': dishList
+		'dishList': dishList
 	}
 	return render(request, 'recipes/home.html', context)
 	
