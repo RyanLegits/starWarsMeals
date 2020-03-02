@@ -123,10 +123,10 @@ for person in people.iter():
 
 	rawHomeworld = person.homeworld
 	# Strip homeworld to integer since swapi returns a url
-	strippedHomeworld = int(re.sub('[^0-9]', '', rawHomeworld))
+	numberHomeworld = int(re.sub('[^0-9]', '', rawHomeworld))
 
 	#Get actual planet object
-	dataPlanet = planets.items[strippedHomeworld]
+	dataPlanet = swapi.get_planet(numberHomeworld)
 
 	# Get planetName
 	characterHomeworld = dataPlanet.name
