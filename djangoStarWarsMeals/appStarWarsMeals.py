@@ -20,7 +20,6 @@ class Character:
         self.name = name
         self.homeworldName = homeworldName
         self.planet = planet
-    
     @property
     def dish(self):
         # Find new homeworld
@@ -34,6 +33,15 @@ class Character:
         for i in self.planet.terrain.strip(",").split(" "):
             planetClimateList.append(i)
 
+        # Function to amend keywords that don't match World Factbook API
+        def fixBrokenKeyword(brokenKeyword, list, newKeyword):
+            if brokenKeyword in list:
+                if newKeyword in brokenKeyword:
+                    list.remove(brokenKeyword)
+                    list.append(newKeyword)
+                else:
+                    list.append(newKeyword)
+
         fixBrokenKeyword('frozen', planetClimateList, 'freeze')
         fixBrokenKeyword('windy', planetClimateList, 'wind')
         fixBrokenKeyword('artificial temperate', planetClimateList, 'temperate')
@@ -45,6 +53,19 @@ class Character:
         fixBrokenKeyword('superheated', planetClimateList, 'heat')
         fixBrokenKeyword('subartic', planetClimateList, 'subarctic')
         fixBrokenKeyword('artic', planetClimateList, 'arctic')
+
+        # Importing data from json files
+        
+        # World Factbook API
+        with open('/Users/eflash/Documents/devProjects/projectStarWarsMeals/rootStarWars\
+            Meals/worldFactbook.json', 'r') as f: countries_dict = json.load(f)
+
+        # National Dishes
+        with open('/Users/eflash/Documents/devProjects/projectStarWarsMeals/rootStarWars\
+            Meals/nationalDishes.json', 'r') as f: dictDishes = json.load(f)
+
+        # Make all dictDishes keys lowercase to be more searchable
+        dictDishes = {k.lower(): v for k, v in dictDishes.items()}
 
         # Find candidateCountries by:
         # Seeing how many keywords from planetClimateList match with each country in World
@@ -84,31 +105,6 @@ class Character:
         dish = random.choice(dishesList)
 
         return dish
-
-
-## Importing data from json files
-
-# World Factbook API
-with open('/Users/eflash/Documents/devProjects/projectStarWarsMeals/rootStarWarsMeals/worldFactbook.json', \
-          'r') as f:
-    countries_dict = json.load(f)
-
-# National Dishes
-with open('/Users/eflash/Documents/devProjects/projectStarWarsMeals/rootStarWarsMeals/nationalDishes.json', \
-          'r') as f:
-    dictDishes = json.load(f)
-
-dictDishes = {k.lower(): v for k, v in dictDishes.items()}
-
-
-## Function to amend keywords that don't match World Factbook API
-def fixBrokenKeyword(brokenKeyword, list, newKeyword):
-    if brokenKeyword in list:
-        if newKeyword in brokenKeyword:
-            list.remove(brokenKeyword)
-            list.append(newKeyword)
-        else:
-            list.append(newKeyword)
 
 
 ## Find Character: name, homeworldName, planet

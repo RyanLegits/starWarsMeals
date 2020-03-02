@@ -1,5 +1,12 @@
 {% extends "recipes/base.html" %}
+
 {% block content %}
-	<h1>Home Page</h1>
-	<p>Character 1: {{ luke }}</p>
+
+	<h1>Home Page!</h1><br>
+	<h5>Choose a character:</h5><br>
+
+{% for j in dishList %}
+	<p>{{ j }}</p>
+{% endfor %}
+
 {% endblock content %}

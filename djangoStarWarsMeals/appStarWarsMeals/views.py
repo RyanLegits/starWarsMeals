@@ -1,10 +1,15 @@
 from django.shortcuts import render
-from appStarWarsMeals.utils import luke
+from appStarWarsMeals.utils import characterList
 
 def home(request):
-	context = {
+	
+	dishList = []
+	
+	for i in characterList:
+		dishList.append(i.dish)
 
-		'luke': luke.name
+	context = {
+		'newList': dishList
 	}
 	return render(request, 'recipes/home.html', context)
 	
