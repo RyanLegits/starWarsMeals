@@ -33,7 +33,7 @@ class Character(object):
 
 		for i in self.planetName.terrain.strip(",").split(" "):
 			planetClimateList.append(i)
-		
+
 		# Function to amend keywords that don't match World Factbook API
 		def fixBrokenKeyword(brokenKeyword, list, newKeyword):
 			if brokenKeyword in list:
@@ -140,10 +140,9 @@ for person in people.iter():
 	counter += 1
 
 
-## Code to find friendHomeworld
-
-
-
-
-## Function to find recipes
-
+## Function to make tuple list for use in drop-down list form
+def characterTuples():
+	listCharacterTuples = []
+	for index in characterList:
+		listCharacterTuples.append((index.characterName, index.characterName))
+	return listCharacterTuples

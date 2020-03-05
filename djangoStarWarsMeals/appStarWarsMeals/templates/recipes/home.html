@@ -2,15 +2,14 @@
 
 {% block content %}
 
-	<h1>Home Page!</h1><br>
-	<h5>Choose a character:</h5><br>
+<h1>Star Wars Meals</h1><br>
 
-{% for character in characterList %}
-	<p>
-		{{ character.characterName }}<br>
-		{{ character.homeworldName }}<br>
-		{{ character.dish }}
-	</p>
-{% endfor %}
+<form method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Find recipe!">
+</form><br><br>
+
+<h3>{{ text }}</h3>
 
 {% endblock content %}
