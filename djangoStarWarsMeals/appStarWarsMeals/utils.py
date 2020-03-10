@@ -58,10 +58,10 @@ class Character(object):
 		# Importing data from json files
 
 		# World Factbook API
-		with open('/Users/buttercup/Documents/devProjects/projectStarWarsMeals/starWarsMeals/djangoStarWarsMeals/appStarWarsMeals/static/appStarWarsMeals/worldFactbook.json', 'r') as f: countries_dict = json.load(f)
+		with open('staticfiles/appStarWarsMeals/worldFactbook.json', 'r') as f: countries_dict = json.load(f)
 
 		# National Dishes
-		with open('/Users/buttercup/Documents/devProjects/projectStarWarsMeals/starWarsMeals/djangoStarWarsMeals/appStarWarsMeals/static/appStarWarsMeals/nationalDishes.json', 'r') as f: dictDishes = json.load(f)
+		with open('staticfiles/appStarWarsMeals/nationalDishes.json', 'r') as f: dictDishes = json.load(f)
 
 		# Make all dictDishes keys lowercase to be more searchable
 		dictDishes = {k.lower(): v for k, v in dictDishes.items()}
