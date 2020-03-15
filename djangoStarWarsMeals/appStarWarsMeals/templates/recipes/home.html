@@ -10,9 +10,17 @@
 	<input type="submit" value="Find recipe!">
 </form><br><br>
 
-<h3>{{ character_dialogue }}</h3><br>
-<h4>{{ recipe_url }}</h4><br><br>
-<h4>{{ ingredients }}</h4><br>
+<h3>
+	{{ character_dialogue }}
+	<a href="{{ recipe_url }}">{{ recipe_label }}</a>
+</h3><br>
+
+<a href="{{ recipe_url }}">
+	<img src="{{ recipe_image }}" alt="{{ recipe_label }}">
+</a><br><br>
+
+<h4>{{ ingredients_label }}</h4><br>
+
 <ul>
 	{% for line in recipe_ingredients %}
 		<li>{{ line }}</li>

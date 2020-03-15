@@ -18,12 +18,13 @@ class CharacterListView(TemplateView):
 			for i in character_list:
 				if i.character_name == text:
 					i.dish()
-					character_dialogue = i.character_name + ": I'm from " + i.homeworld_name + ", but on Earth I really like to make " + i.recipe_label + "."
+					character_dialogue = i.character_name + ": I'm from " + i.homeworld_name + ", but on Earth I really like to make "
+					recipe_label = i.recipe_label + "."
 					recipe_image = i.recipe_image
 					recipe_url = i.recipe_url
-					ingredients = 'Shopping list: '
+					ingredients_label = 'Shopping list: '
 					recipe_ingredients = i.recipe_ingredients
 					
-		args = {'form': form, 'character_dialogue': character_dialogue, 'recipe_image': recipe_image, 'recipe_url': recipe_url, 'ingredients': ingredients, 'recipe_ingredients': recipe_ingredients}
+		args = {'form': form, 'character_dialogue': character_dialogue, 'recipe_label': recipe_label, 'recipe_image': recipe_image, 'recipe_url': recipe_url, 'ingredients_label': ingredients_label, 'recipe_ingredients': recipe_ingredients}
 
 		return render(request, self.template_name, args)
