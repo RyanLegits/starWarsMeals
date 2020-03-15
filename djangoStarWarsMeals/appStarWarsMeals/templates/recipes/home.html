@@ -10,6 +10,13 @@
 	<input type="submit" value="Find recipe!">
 </form><br><br>
 
-<h3>{{ text }}</h3>
+<h3>{{ character_dialogue }}</h3><br>
+<h4>{{ recipe_url }}</h4><br><br>
+<h4>{{ ingredients }}</h4><br>
+<ul>
+	{% for line in recipe_ingredients %}
+		<li>{{ line }}</li>
+	{% endfor %}
+</ul>
 
 {% endblock content %}

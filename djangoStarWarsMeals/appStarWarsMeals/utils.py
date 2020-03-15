@@ -40,9 +40,13 @@ class Character(object):
 	homeworld_name = "homeworld_name"
 	planet_climate = "planet_climate"
 	planet_terrain = "planet_terrain"
+	
+	recipe_label = "Recipe name not found"
+	recipe_image = "Recipe image not found"
+	recipe_url = "Link to recipe not found"
+	recipe_ingredients = "Ingredients not found"
 
-	#Method to find 'dish' for characters as "attribute" using property decorator
-	@property
+	#Method to find recipe related attributes for characters 
 	def dish(self):
 	# Find new homeworld
 
@@ -111,20 +115,49 @@ class Character(object):
 			val in candidate_countries.items()
 			if val == m])
 
-		# Return national dish of new_homeworld
-		dishes = dict_dishes.get(new_homeworld)
-		if dishes == None:
-			dishes = "Country not found!"
+		
+		## Find dish in edamam API
+		edamam_id = 'aa9cc0ca'
+		edamam_key = 'c120cd72f8c76ced88f1977e1c227c59'
+		edamam_data = requests.get('https://api.edamam.com/search?q=' + new_homeworld + '&app_id=' + edamam_id + '&app_key=' + edamam_key)
+		edamam_recipes = edamam_data.json()
 
-		#Split dishes into multiple strings if more than one
-		list_dishes = []
-		for i in dishes.split(", "):
-			list_dishes.append(i)
+		# Choose random recipe from edamam results
+		recipe_hits = 0
+		for i in edamam_recipes['hits']:
+			recipe_hits += 1
 
-		#Choose random dish from country's dishes
-		dish = random.choice(list_dishes)
+		random_recipe = random.randint(0, recipe_hits)
 
-		return dish
+		# Setting up 'recipe_ingredients' attribute for 'RecipeData'
+		list_ingredients = []
+		for line in edamam_recipes['hits'][random_recipe]['recipe']['ingredientLines']:
+			list_ingredients.append(line)
+
+		Character.recipe_label = edamam_recipes['hits'][random_recipe]['recipe']['label']
+		Character.recipe_image = edamam_recipes['hits'][random_recipe]['recipe']['image']
+		Character.recipe_url = edamam_recipes['hits'][random_recipe]['recipe']['url']
+		Character.recipe_ingredients = list_ingredients
+
+
+		# ###1 Save this code as part of larger dish finding algo in future version
+
+		# # Return national dish of new_homeworld
+		# dishes = dict_dishes.get(new_homeworld)
+		# if dishes == None:
+		# 	dishes = "Country not found!"
+
+		# #Split dishes into multiple strings if more than one
+		# list_dishes = []
+		# for i in dishes.split(", "):
+		# 	list_dishes.append(i)
+
+		# #Choose random dish from country's dishes
+		# dish = random.choice(list_dishes)
+
+		# return dish
+
+		# ###1 end
 
 
 ## Find Character attributes
