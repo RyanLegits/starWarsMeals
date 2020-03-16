@@ -18,7 +18,7 @@ class CharacterListView(TemplateView):
 			for i in character_list:
 				if i.character_name == text:
 					i.dish()
-					character_dialogue = i.character_name + ": I'm from " + i.homeworld_name + ", but on Earth I really like to make "
+					character_dialogue = i.character_dialogue
 					recipe_label = i.recipe_label + "."
 					recipe_image = i.recipe_image
 					recipe_url = i.recipe_url

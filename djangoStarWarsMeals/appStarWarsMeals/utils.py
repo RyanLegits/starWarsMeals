@@ -41,10 +41,11 @@ class Character(object):
 	planet_climate = "planet_climate"
 	planet_terrain = "planet_terrain"
 	
-	recipe_label = "Recipe name not found"
-	recipe_image = "Recipe image not found"
-	recipe_url = "Link to recipe not found"
-	recipe_ingredients = "Ingredients not found"
+	character_dialogue = "Hello, there. It looks like we've got a problem!"
+	recipe_label = ""
+	recipe_image = ""
+	recipe_url = ""
+	recipe_ingredients = ""
 
 	#Method to find recipe related attributes for characters 
 	def dish(self):
@@ -115,29 +116,48 @@ class Character(object):
 			val in candidate_countries.items()
 			if val == m])
 
-		
-		## Find dish in edamam API
-		edamam_id = 'aa9cc0ca'
-		edamam_key = 'c120cd72f8c76ced88f1977e1c227c59'
-		edamam_data = requests.get('https://api.edamam.com/search?q=' + new_homeworld + '&app_id=' + edamam_id + '&app_key=' + edamam_key)
-		edamam_recipes = edamam_data.json()
+
+		## Find dish in API
+
+		# Search edamam API
+		def search_recipes(recipe_keyword):
+			edamam_id = 'aa9cc0ca'
+			edamam_key = 'c120cd72f8c76ced88f1977e1c227c59'
+			edamam_data = requests.get('https://api.edamam.com/search?q=' + recipe_keyword + '&app_id=' + edamam_id + '&app_key=' + edamam_key)
+			return edamam_data.json()
 
 		# Choose random recipe from edamam results
-		recipe_hits = 0
-		for i in edamam_recipes['hits']:
-			recipe_hits += 1
+		def choose_recipe(recipe_results):
+			recipe_hits = -1
+			for i in recipe_results['hits']:
+				recipe_hits += 1
 
-		random_recipe = random.randint(0, recipe_hits)
+			# If recipe found, choose one randomly
+			random_recipe = -1
+			if recipe_hits > -1:
+				random_recipe = random.randint(0, recipe_hits)
+			
+			return random_recipe
 
-		# Setting up 'recipe_ingredients' attribute for 'RecipeData'
-		list_ingredients = []
-		for line in edamam_recipes['hits'][random_recipe]['recipe']['ingredientLines']:
-			list_ingredients.append(line)
 
-		Character.recipe_label = edamam_recipes['hits'][random_recipe]['recipe']['label']
-		Character.recipe_image = edamam_recipes['hits'][random_recipe]['recipe']['image']
-		Character.recipe_url = edamam_recipes['hits'][random_recipe]['recipe']['url']
-		Character.recipe_ingredients = list_ingredients
+		## Add dish info to 'Character' object
+		def populate_recipe(results, chosen_recipe):
+			# Setting up 'recipe_ingredients' attribute for 'RecipeData'
+			list_ingredients = []
+			for line in results['hits'][chosen_recipe]['recipe']['ingredientLines']:
+				list_ingredients.append(line)
+
+			Character.character_dialogue = "Hello! I'm " + self.character_name + "." + " I'm from " + self.homeworld_name + ", but on Earth I really like to eat "
+			Character.recipe_label = results['hits'][chosen_recipe]['recipe']['label']
+			Character.recipe_image = results['hits'][chosen_recipe]['recipe']['image']
+			Character.recipe_url = results['hits'][chosen_recipe]['recipe']['url']
+			Character.recipe_ingredients = list_ingredients
+
+		#Search for recipe using character's 'newhomeworld'
+		edamam_recipes = search_recipes(new_homeworld)
+		character_recipe = choose_recipe(edamam_recipes)
+		if character_recipe > -1:
+			populate_recipe(edamam_recipes, character_recipe)
 
 
 		# ###1 Save this code as part of larger dish finding algo in future version
